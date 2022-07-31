@@ -4,6 +4,8 @@ Terminal user interface (TUI) version of the code.quarkus.io starter page. Inspi
 
 [code.Quarkus.io API documentation](https://editor.swagger.io/?url=https://code.quarkus.io/q/openapi).
 
+![screen recording](screenrecording.gif)
+
 
 ## Dependencies
 - bash (or equivalent, also tested with zsh)
