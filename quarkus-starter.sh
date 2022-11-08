@@ -15,20 +15,23 @@ ARTIFACT_ID='quarkus-app'
 VERSION='1.0-SNAPSHOT'
 DESCRIPTION='Quarkus app'
 # TODO: use the starter code / no code option for something
+# shellcheck disable=SC2034
 STARTER_CODE='true'
 DEPENDENCIES=""
 
 function artifact_settings () {
-	while [ 1 ]
+	while true
 	do
 		ACTION=$(dialog --stdout --backtitle "$BACK_TITLE" --no-cancel --inputmenu "Artifact settings" 0 0 10 "Group id:" "$GROUP_ID" "Artifact id:" "$ARTIFACT_ID" "Version:" "$VERSION" "Description:" "$DESCRIPTION")
 		
 		# not renaming, so OK was selected. gtf back to the menu
-		if [ -z $(echo $ACTION | grep RENAMED)]
+        # shellcheck disable=SC2143,SC2046
+		if [ -z $(echo $ACTION | grep RENAMED) ]
 		then
 			break
 		fi
 
+        # shellcheck disable=SC2001
 		SELECTIONS=$(echo ${ACTION:8} | sed 's/: /:+/g')
 		SELECTED_TYPE=$(echo $SELECTIONS | cut -d + -f1)
 		SELECTED_VALUE=$(echo $SELECTIONS | cut -d + -f2)
@@ -58,13 +61,13 @@ function _transform_choices_to_dialog_radio_options() {
 
 function change_build_tool() {
     # TODO: any way we can show just the name and not the key here?
-	BUILD_TOOL_SELECTIONS=$(echo '"MAVEN"\n"Maven"\n"GRADLE"\n"Gradle"\n"GRADLE_KOTLIN_DSL"\n"Gradle with Kotlin DSL"')
+	BUILD_TOOL_SELECTIONS='"MAVEN"\n"Maven"\n"GRADLE"\n"Gradle"\n"GRADLE_KOTLIN_DSL"\n"Gradle with Kotlin DSL"'
 	RADIO_OPTIONS=$(_transform_choices_to_dialog_radio_options "$BUILD_TOOL_SELECTIONS" "$BUILD_TOOL")
 	BUILD_TOOL=$(eval "dialog --stdout --backtitle \"$BACK_TITLE\" --radiolist 'Select build tool' 0 0 0 $RADIO_OPTIONS")
 }
 
 function change_java_version() {
-	JAVA_VERSION_SELECTIONS=$(echo '"11"\n"Java 11"\n"17"\n"Java 17"')
+	JAVA_VERSION_SELECTIONS='"11"\n"Java 11"\n"17"\n"Java 17"'
 	RADIO_OPTIONS=$(_transform_choices_to_dialog_radio_options "$JAVA_VERSION_SELECTIONS" "$JAVA_VERSION")
 	JAVA_VERSION=$(eval "dialog --stdout --backtitle \"$BACK_TITLE\" --radiolist 'Select build tool' 0 0 0 $RADIO_OPTIONS")
 }
@@ -91,10 +94,11 @@ function dependency_management () {
 	DEPENDENCIES=$(eval "dialog --stdout --backtitle \"$BACK_TITLE\" --item-help --checklist \"Choose dependencies\" 0 0 0 $DEPENDENCY_LIST" | sed 's/ /,/g')
 }
 
-while [ 1 ]
+while true
 do
 	CHOICE=$(dialog --stdout --backtitle "$BACK_TITLE" --title "Select option" --menu "Artifact information:\nGroup id:                 $GROUP_ID\nArtifact id:              $ARTIFACT_ID\n\nBuild tool:               $BUILD_TOOL\nQuarkus Platform version: $QUARKUS_PLATFORM_VERSION\nJava version:             $JAVA_VERSION\n" 0 0 0 "a" "Artifact settings" "b" "Change build tool" "q" "Change Quarkus Platform version" "j" "Change Java version" "d" "Manage dependencies" "c" "Create project")
 
+    # shellcheck disable=SC2181
 	if [ $? -ne 0 ]
 	then 
 		echo "Cancel selected, exiting..."
