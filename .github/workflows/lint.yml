@@ -1,0 +1,19 @@
+name: Lint script
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install shellcheck
+        run: |
+          sudo apt install -y shellcheck
+      - name: Lint script
+        env:
+          SHELLCHECK_OPTS: "-e SC2086"
+        run: |
+          shellcheck quarkus-starter.sh
