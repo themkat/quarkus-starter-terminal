@@ -13,3 +13,6 @@ Terminal user interface (TUI) version of the code.quarkus.io starter page. Inspi
 - Standard Unix tools (sed, curl)
 - dialog
 - jq
+
+## Container image
+If you prefer to use the script from a container, [it is available on Docker hub and is called themkat/quarkus-starter](https://hub.docker.com/r/themkat/quarkus-starter). You can also build it yourself from this repo using the included Dockerfile using `docker build -t themkat/quarkus-starter .`.
